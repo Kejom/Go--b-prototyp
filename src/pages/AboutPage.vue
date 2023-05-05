@@ -1,6 +1,6 @@
 <template>
     <q-page class="q-pa-lg">
-    <h4 class="q-mt-none q-mb-md text-weight-bold">O Gołębiu</h4>
+    <h4 class="q-mt-none q-mb-md text-weight-bold">O Gołebiu</h4>
     <div class="text-body1">
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias corporis consequatur adipisci quae vel,
         veritatis velit tempora magni eligendi repellat. In cupiditate nam eos, iusto autem ad quis! Laudantium, veniam?
@@ -18,6 +18,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="sass" scoped>
 
 </style>

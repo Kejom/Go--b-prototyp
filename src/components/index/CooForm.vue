@@ -1,7 +1,7 @@
 <template>
     <div class="q-py-lg q-px-md row items-end q-col-gutter-md">
         <div class="col">
-            <q-input class="new-Qweet" bottom-slots v-model="newCooText" placeholder="Podziel się czymś ciekawym."
+            <q-input class="new-coo" bottom-slots v-model="newCooText" placeholder="Podziel się czymś ciekawym."
                 counter maxlength="280" autogrow>
                 <template v-slot:before>
                     <q-avatar size="100px">
@@ -20,12 +20,13 @@
 <script>
 import {ref} from 'vue'
 export default {
-    name: 'NewCooForm',
-    setup(){
+    name: 'CooForm',
+    setup(_, {emit}){
         const newCooText = ref('');
 
         const addNewCoo = () => {
-            console.log(newCoo);
+            emit('addClicked', {cooText: newCooText.value})
+            newCooText.value = "";
         }
 
         return {
@@ -36,4 +37,9 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="sass">
+.new-coo
+  textarea
+    font-size: 19px
+    line-height: 1.4 !important
+</style>

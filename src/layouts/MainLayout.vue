@@ -1,12 +1,12 @@
 <template>
-  <q-layout view="lHr lpR fFf">
+  <q-layout view="lHr lpR fFf" container style="height: 100vh; max-width: 1300px; margin: 0 auto">
 
     <q-header bordered class="bg-white text-black">
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title class="text-weight-bold">
-          <q-avatar class="q-mx-sm lt-md">
+          <q-avatar class="q-pa-md lt-md header-icon">
             <img src="../assets/golab-logo.jpg">
           </q-avatar>
           <span class="gt-sm q-ml-sm"> {{ route.name }}</span>
@@ -24,7 +24,7 @@
     </q-drawer>
 
     <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
-      <!-- drawer content -->
+      <search-bar v-model="searchValue" placeholder="Szukaj..."/>
     </q-drawer>
 
     <q-page-container class="fit">
@@ -32,21 +32,25 @@
     </q-page-container>
 
   </q-layout>
+
 </template>
 
 <script>
 import { ref} from 'vue'
 import { useRoute } from 'vue-router'
 import Navigation from 'src/components/layout/Navigation.vue'
+import SearchBar from 'src/components/shared/SearchBar.vue'
 
 export default {
   components: {
-    Navigation
+    Navigation,
+    SearchBar
   },
   setup () {
     const route = useRoute()
     const leftDrawerOpen = ref(false)
     const rightDrawerOpen = ref(false)
+    const searchValue = ref("");
 
     return {
       leftDrawerOpen,
@@ -58,8 +62,17 @@ export default {
       toggleRightDrawer () {
         rightDrawerOpen.value = !rightDrawerOpen.value
       },
-      route
+      route,
+      searchValue
     }
   }
 }
 </script>
+
+<style lang="sass">
+.header-icon
+  position: absolute
+  bottom: 20px,
+  left: 50%
+  transform: translateX(-50%)
+</style>
