@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHr lpR fFf" container style="height: 100vh; max-width: 1300px; margin: 0 auto">
+  <q-layout view="lHr lpR fFf" container style="height: 100vh; max-width: 1400px; margin: 0 auto">
 
     <q-header bordered class="bg-white text-black">
       <q-toolbar>
@@ -10,7 +10,7 @@
             <img src="../assets/golab-logo.jpg">
           </q-avatar>
           <span class="gt-sm q-ml-sm"> {{ route.name }}</span>
-          
+
         </q-toolbar-title>
 
       </q-toolbar>
@@ -18,25 +18,29 @@
 
     <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
       <q-avatar class="q-mx-sm">
-            <img src="../assets/golab-logo.jpg">
-          </q-avatar>
-      <navigation/>
+        <img src="../assets/golab-logo.jpg">
+      </q-avatar>
+      <navigation />
     </q-drawer>
 
     <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
-      <search-bar v-model="searchValue" placeholder="Szukaj..."/>
+      <search-bar v-model="searchValue" placeholder="Szukaj..." />
     </q-drawer>
 
     <q-page-container class="fit">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
+      
     </q-page-container>
 
   </q-layout>
-
 </template>
 
 <script>
-import { ref} from 'vue'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import Navigation from 'src/components/layout/Navigation.vue'
 import SearchBar from 'src/components/shared/SearchBar.vue'
@@ -46,7 +50,7 @@ export default {
     Navigation,
     SearchBar
   },
-  setup () {
+  setup() {
     const route = useRoute()
     const leftDrawerOpen = ref(false)
     const rightDrawerOpen = ref(false)
@@ -54,12 +58,12 @@ export default {
 
     return {
       leftDrawerOpen,
-      toggleLeftDrawer () {
+      toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
 
       rightDrawerOpen,
-      toggleRightDrawer () {
+      toggleRightDrawer() {
         rightDrawerOpen.value = !rightDrawerOpen.value
       },
       route,
@@ -75,4 +79,6 @@ export default {
   bottom: 20px,
   left: 50%
   transform: translateX(-50%)
+.page-container
+  background-color: $accent
 </style>

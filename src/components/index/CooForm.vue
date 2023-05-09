@@ -4,7 +4,7 @@
             <q-input class="new-coo" bottom-slots v-model="newCooText" placeholder="Podziel się czymś ciekawym."
                 counter maxlength="280" autogrow>
                 <template v-slot:before>
-                    <q-avatar size="100px">
+                    <q-avatar size="4em" class="gt-sm">
                         <img src="../../assets/golab-default-avatar.jpg">
                     </q-avatar>
                 </template>

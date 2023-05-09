@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Gołąb</string>
+    <string name="title_activity_main">Gołąb</string>
+    <string name="package_name">golab.prototyp</string>
+    <string name="custom_url_scheme">golab.prototyp</string>
+</resources>

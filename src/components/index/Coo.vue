@@ -18,9 +18,9 @@
       <div class="qweet-icons row justify-around q-mt-lg">
         <q-btn flat round color="grey" icon="far fa-comment" size="sm" />
         <q-btn flat round color="grey" icon="fas fa-retweet" size="sm" />
-        <q-btn flat round  color="'grey"
-          icon="far fa-heart" size="sm" />
-        <q-btn flat round color="grey" icon="fas fa-trash" size="sm" @click="removeCoo" />
+        <q-btn flat round :color="coo.liked ? 'pink' : 'grey'" :icon="coo.liked ? 'fas fa-heart' : 'far fa-heart'"
+          size="sm" @click="likeClicked"/>
+        <q-btn flat round color="grey" icon="fas fa-trash" size="sm" @click="removeClicked" />
       </div>
     </q-item-section>
 
@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import {formatDistance} from 'date-fns'
-import {pl} from 'date-fns/locale'
+import { formatDistance } from 'date-fns'
+import { pl } from 'date-fns/locale'
 export default {
   name: 'Coo',
   props: {
@@ -39,14 +39,17 @@ export default {
       default: () => { },
     }
   },
-  setup(props, {emit}){
-    const removeCoo = () =>{
-        emit("removeClicked", props.coo.id)
-      }
+  setup(props, { emit }) {
+  
+    const removeClicked = () => emit("removeClicked", props.coo.id)
 
-      const relativeDate = (value) => formatDistance(value, Date.now(), {locale: pl})
+
+    const likeClicked = () => emit("likeClicked", props.coo);
+
+    const relativeDate = (value) => formatDistance(value, Date.now(), { locale: pl })
     return {
-      removeCoo,
+      removeClicked,
+      likeClicked,
       relativeDate
     }
   }
