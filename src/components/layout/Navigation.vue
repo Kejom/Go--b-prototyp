@@ -16,12 +16,40 @@
           <q-item-section class="text-h6 text-weight-bold">Informacje o Aplikacji</q-item-section>
         </q-item>
 
+        <q-item v-if="userStore.loggedUserRef" clickable v-ripple @click="onLogout" exact>
+          <q-item-section avatar>
+            <q-icon name="logout" size="md"  />
+          </q-item-section>
+
+          <q-item-section class="text-h6 text-weight-bold">Wyloguj</q-item-section>
+        </q-item>
+
+        <q-item v-else clickable v-ripple to="/register" exact>
+          <q-item-section avatar>
+            <q-icon name="person_add" size="md"  />
+          </q-item-section>
+
+          <q-item-section class="text-h6 text-weight-bold">Zarejestruj Konto</q-item-section>
+        </q-item>
+
     </q-list>
 </template>
 
 <script>
+import { useUserDataStore } from 'src/stores/user-data-store';
+import { logOut } from 'src/boot/firebase';
 export default {
-    name: 'Navigation'
+    name: 'Navigation',
+    setup(){
+      const userStore = useUserDataStore();
+
+      const onLogout = async() => await logOut();
+
+      return {
+        userStore,
+        onLogout
+      }
+    }
 }
 </script>
 

@@ -5,7 +5,8 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/IndexPage.vue'), name: 'Strona Główna' },
-      { path: '/about', component: () => import('pages/AboutPage.vue'), name: 'Informacje o Aplikacji' }
+      { path: '/about', component: () => import('pages/AboutPage.vue'), name: 'Informacje o Aplikacji' },
+      {path: '/register', component: () => import('pages/RegisterPage.vue'), name: "Zarejestruj Nowe Konto"}
     ]
   },
 

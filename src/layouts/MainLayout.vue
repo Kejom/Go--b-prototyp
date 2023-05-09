@@ -25,6 +25,7 @@
 
     <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
       <search-bar v-model="searchValue" placeholder="Szukaj..." />
+      <p v-if="userStore.loggedUserRef">Zalogowany jako: {{ userStore.loggedUserRef.displayName }}</p>
     </q-drawer>
 
     <q-page-container class="fit">
@@ -42,19 +43,21 @@
 <script>
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { useUserDataStore } from 'src/stores/user-data-store';
 import Navigation from 'src/components/layout/Navigation.vue'
 import SearchBar from 'src/components/shared/SearchBar.vue'
 
 export default {
   components: {
     Navigation,
-    SearchBar
+    SearchBar,
   },
   setup() {
     const route = useRoute()
     const leftDrawerOpen = ref(false)
     const rightDrawerOpen = ref(false)
     const searchValue = ref("");
+    const userStore = useUserDataStore();
 
     return {
       leftDrawerOpen,
@@ -67,7 +70,8 @@ export default {
         rightDrawerOpen.value = !rightDrawerOpen.value
       },
       route,
-      searchValue
+      searchValue,
+      userStore
     }
   }
 }

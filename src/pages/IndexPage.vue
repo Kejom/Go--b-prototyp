@@ -1,7 +1,8 @@
 <template>
   <q-page class="flex flex-center">
     <q-scroll-area class="absolute full-width full-height">
-      <coo-form @add-clicked="addCoo" />
+      <login-form v-if="!userStore.loggedUserRef"/>
+      <coo-form v-else @add-clicked="addCoo" />
       <q-separator class="divider" size="10px" color="accent" />
       <q-list>
         <transition-group appear enter-active-class="animated fadeIn slow" leave-active-class="animated fadeOut slow">
@@ -15,19 +16,24 @@
 <script>
 import { defineComponent, ref, onMounted } from 'vue';
 import { collection, doc, addDoc, query, onSnapshot, orderBy, deleteDoc, updateDoc } from "firebase/firestore";
-import db from 'src/boot/firebase';
+import {db, onAuthStateChangedListener } from 'src/boot/firebase';
 import CooForm from 'src/components/index/CooForm.vue';
 import Coo from 'src/components/index/Coo.vue';
+import LoginForm from 'src/components/index/LoginForm.vue';
+import { useUserDataStore } from 'src/stores/user-data-store';
 
 
 export default defineComponent({
   name: 'IndexPage',
   components: {
     CooForm,
-    Coo
+    Coo,
+    LoginForm
   },
   setup() {
     let coos = ref([]);
+
+    const userStore = useUserDataStore();
 
     const addCoo = async ({ cooText }) => {
       let newCoo = {
@@ -67,13 +73,16 @@ export default defineComponent({
           }
         })
       })
+
+      onAuthStateChangedListener((user) => userStore.setCurrentUser(user));
     })
 
     return {
       coos,
       addCoo,
       removeCoo,
-      toggleLike
+      toggleLike,
+      userStore
     }
   }
 })
