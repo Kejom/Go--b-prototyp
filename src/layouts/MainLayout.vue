@@ -25,7 +25,7 @@
 
     <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
       <search-bar v-model="searchValue" placeholder="Szukaj..." />
-      <p v-if="userStore.loggedUserRef">Zalogowany jako: {{ userStore.loggedUserRef.displayName }}</p>
+      <p v-if="userStore.loggedUser">Zalogowany jako: {{ userStore.loggedUser.name }}</p>
     </q-drawer>
 
     <q-page-container class="fit">

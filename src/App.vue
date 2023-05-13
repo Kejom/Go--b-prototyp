@@ -1,11 +1,26 @@
 <template>
-  <router-view/>
+  <router-view />
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-
+import { defineComponent, onMounted } from 'vue'
+import { useUserDataStore } from 'src/stores/user-data-store';
+import { onAuthStateChangedListener, getUserProfileData } from 'src/boot/firebase';
 export default defineComponent({
-  name: 'App'
+  name: 'App',
+  setup() {
+    const userStore = useUserDataStore();
+    const authStateChangeHandler = async (user) => {
+      console.log("auth state changed", user);
+      userStore.setCurrentUser(user);
+      if(!user)
+        return;
+      const userProfile = await getUserProfileData(user.uid);
+      userStore.loggedUser = userProfile;
+    }
+    onMounted(() => {
+      onAuthStateChangedListener((user) => authStateChangeHandler(user));
+    })
+  }
 })
 </script>

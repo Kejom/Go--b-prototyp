@@ -38,8 +38,8 @@ export default {
         }
 
         const onGoogleLogin = async() => {
-            const user = logInWithGoogle();
-            console.log("loginform user:", user);
+            await logInWithGoogle();
+            window.location.reload();
         }   
 
         return {

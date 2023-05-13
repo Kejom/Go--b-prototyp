@@ -2,8 +2,6 @@
     <div class="q-pa-md" style="max-width: 400px; margin: 0 auto;">
 
         <q-form @submit="onSubmit" class="q-gutter-md">
-            <q-input filled type="text" v-model="formData.name" label="Nazwa Użytkownika" lazy-rules
-                :rules="[val => val && val.length > 0 || 'Email nie może być pusty!']" />
             <q-input filled type="email" v-model="formData.email" label="Email" lazy-rules
                 :rules="[val => val && val.length > 0 || 'Email nie może być pusty!']" />
 
@@ -33,7 +31,6 @@ export default {
         const $q = useQuasar();
         const router = useRouter();
         const formData = reactive({
-            name: '',
             email: '',
             password: '',
             confirmPassword: '',
@@ -48,7 +45,7 @@ export default {
                     message: 'pola hasło oraz potwierdź hasło zawierają różne wartości'
                 })
 
-            await createUserAccount(formData.name, formData.email, formData.password);
+            await createUserAccount(formData.email, formData.password);
             router.push("/");
         }
         return {

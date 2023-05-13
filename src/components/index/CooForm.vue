@@ -5,7 +5,7 @@
                 counter maxlength="280" autogrow>
                 <template v-slot:before>
                     <q-avatar size="4em" class="gt-sm">
-                        <img src="../../assets/golab-default-avatar.jpg">
+                        <img :src="userStore.loggedUser.avatarUrl">
                     </q-avatar>
                 </template>
             </q-input>
@@ -19,9 +19,11 @@
 
 <script>
 import {ref} from 'vue'
+import { useUserDataStore } from 'src/stores/user-data-store';
 export default {
     name: 'CooForm',
     setup(_, {emit}){
+        const userStore = useUserDataStore();
         const newCooText = ref('');
 
         const addNewCoo = () => {
@@ -31,7 +33,8 @@ export default {
 
         return {
             newCooText,
-            addNewCoo
+            addNewCoo,
+            userStore
         }
     }
 }

@@ -16,6 +16,14 @@
           <q-item-section class="text-h6 text-weight-bold">Informacje o Aplikacji</q-item-section>
         </q-item>
 
+        <q-item v-if="userProfileNotFilled" clickable v-ripple to="/register" exact>
+          <q-item-section avatar>
+            <q-icon name="person_add" size="md"  />
+          </q-item-section>
+
+          <q-item-section class="text-h6 text-weight-bold">Uzupełnij Profil</q-item-section>
+        </q-item>
+
         <q-item v-if="userStore.loggedUserRef" clickable v-ripple @click="onLogout" exact>
           <q-item-section avatar>
             <q-icon name="logout" size="md"  />
@@ -36,17 +44,23 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import { useUserDataStore } from 'src/stores/user-data-store';
 import { logOut } from 'src/boot/firebase';
 export default {
     name: 'Navigation',
     setup(){
       const userStore = useUserDataStore();
+      const userProfileNotFilled = computed(() =>  userStore.loggedUserRef && !userStore.loggedUser)
 
-      const onLogout = async() => await logOut();
+      const onLogout = async() => {
+        await logOut();
+        userStore.loggedUser = null;
+      }
 
       return {
         userStore,
+        userProfileNotFilled,
         onLogout
       }
     }

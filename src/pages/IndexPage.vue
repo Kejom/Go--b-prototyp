@@ -2,7 +2,10 @@
   <q-page class="flex flex-center">
     <q-scroll-area class="absolute full-width full-height">
       <login-form v-if="!userStore.loggedUserRef"/>
-      <coo-form v-else @add-clicked="addCoo" />
+      <coo-form v-else-if="userStore.loggedUser" @add-clicked="addCoo" />
+      <q-btn-group v-else spread class="q-ma-md">
+                <q-btn label="Aby dodawać gruchnięcia musisz uzupełnić swój profil"  color="primary" text-color="accent" to="/register" />
+            </q-btn-group>
       <q-separator class="divider" size="10px" color="accent" />
       <q-list>
         <transition-group appear enter-active-class="animated fadeIn slow" leave-active-class="animated fadeOut slow">
@@ -16,7 +19,7 @@
 <script>
 import { defineComponent, ref, onMounted } from 'vue';
 import { collection, doc, addDoc, query, onSnapshot, orderBy, deleteDoc, updateDoc } from "firebase/firestore";
-import {db, onAuthStateChangedListener } from 'src/boot/firebase';
+import {db } from 'src/boot/firebase';
 import CooForm from 'src/components/index/CooForm.vue';
 import Coo from 'src/components/index/Coo.vue';
 import LoginForm from 'src/components/index/LoginForm.vue';
@@ -39,7 +42,8 @@ export default defineComponent({
       let newCoo = {
         content: cooText,
         date: Date.now(),
-        liked: false
+        liked: false,
+        userId: userStore.loggedUserRef.uid
       }
       const newCooRef = await addDoc(collection(db, 'coos'), newCoo);
     }
@@ -74,7 +78,6 @@ export default defineComponent({
         })
       })
 
-      onAuthStateChangedListener((user) => userStore.setCurrentUser(user));
     })
 
     return {

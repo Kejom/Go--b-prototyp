@@ -2,14 +2,14 @@
   <q-item class="qweet q-py-md">
     <q-item-section avatar top>
       <q-avatar size="xl">
-        <img src="../../assets/golab-default-avatar.jpg">
+        <img :src="user.avatarUrl">
       </q-avatar>
     </q-item-section>
     <q-item-section>
       <q-item-label class="text-subtitle1">
-        <strong>User Name</strong>
-        <span class="text-grey-7"> @user_handle
-          <br class="lt-md">&bull; {{ relativeDate(coo.date) }}
+        <strong>{{ user.name }}</strong>
+        <span class="text-grey-7"> @{{ user.handle }}
+          <br class="lt-md">&bull; {{ relativeDate(coo.date) }} temu
         </span>
       </q-item-label>
       <q-item-label class="qweet-content text-body1">
@@ -28,8 +28,10 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
 import { formatDistance } from 'date-fns'
 import { pl } from 'date-fns/locale'
+import { useUserDataStore } from 'src/stores/user-data-store'
 export default {
   name: 'Coo',
   props: {
@@ -40,6 +42,8 @@ export default {
     }
   },
   setup(props, { emit }) {
+    const userStore = useUserDataStore();
+    const user = ref({})
   
     const removeClicked = () => emit("removeClicked", props.coo.id)
 
@@ -47,7 +51,14 @@ export default {
     const likeClicked = () => emit("likeClicked", props.coo);
 
     const relativeDate = (value) => formatDistance(value, Date.now(), { locale: pl })
+
+    onMounted(async() => {
+      const userProfile = await userStore.getUser(props.coo.userId);
+      user.value = userProfile;
+      console.log(user.value);
+    })
     return {
+      user,
       removeClicked,
       likeClicked,
       relativeDate
