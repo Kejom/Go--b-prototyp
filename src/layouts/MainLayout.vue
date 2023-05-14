@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHr lpR fFf" container style="height: 100vh; max-width: 1400px; margin: 0 auto">
+  <q-layout view="lHr lpR fFf" >
 
     <q-header bordered class="bg-white text-black">
       <q-toolbar>

@@ -1,9 +1,11 @@
 <template>
   <q-item class="qweet q-py-md">
     <q-item-section avatar top>
+      <q-btn flat :to="`/${user.handle}`">
       <q-avatar size="xl">
         <img :src="user.avatarUrl">
       </q-avatar>
+    </q-btn>
     </q-item-section>
     <q-item-section>
       <q-item-label class="text-subtitle1">
@@ -12,15 +14,18 @@
           <br class="lt-md">&bull; {{ relativeDate(coo.date) }} temu
         </span>
       </q-item-label>
-      <q-item-label class="qweet-content text-body1">
+
+        <q-item-label class="qweet-content text-body1">
         {{ coo.content }}
       </q-item-label>
-      <div class="qweet-icons row justify-around q-mt-lg">
-        <q-btn flat round color="grey" icon="far fa-comment" size="sm" />
+
+
+      <div class="qweet-icons row justify-around q-mt-md">
+        <q-btn flat round color="grey" icon="far fa-comment" size="sm" :to="`/${user.handle}/${coo.id}`"/>
         <q-btn flat round color="grey" icon="fas fa-retweet" size="sm" />
         <q-btn flat round :color="coo.liked ? 'pink' : 'grey'" :icon="coo.liked ? 'fas fa-heart' : 'far fa-heart'"
           size="sm" @click="likeClicked"/>
-        <q-btn flat round color="grey" icon="fas fa-trash" size="sm" @click="removeClicked" />
+        <q-btn flat round color="grey" icon="fas fa-trash" size="sm" @click="removeClicked" :disable="loggedUserId !== coo.userId" />
       </div>
     </q-item-section>
 
@@ -43,6 +48,7 @@ export default {
   },
   setup(props, { emit }) {
     const userStore = useUserDataStore();
+    const loggedUserId = userStore.loggedUserRef.uid;
     const user = ref({})
   
     const removeClicked = () => emit("removeClicked", props.coo.id)
@@ -55,10 +61,10 @@ export default {
     onMounted(async() => {
       const userProfile = await userStore.getUser(props.coo.userId);
       user.value = userProfile;
-      console.log(user.value);
     })
     return {
       user,
+      loggedUserId,
       removeClicked,
       likeClicked,
       relativeDate

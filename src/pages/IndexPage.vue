@@ -4,14 +4,9 @@
       <login-form v-if="!userStore.loggedUserRef"/>
       <coo-form v-else-if="userStore.loggedUser" @add-clicked="addCoo" />
       <q-btn-group v-else spread class="q-ma-md">
-                <q-btn label="Aby dodawać gruchnięcia musisz uzupełnić swój profil"  color="primary" text-color="accent" to="/register" />
+                <q-btn label="Aby dodawać gruchnięcia musisz uzupełnić swój profil"  color="primary" text-color="accent" to="/editprofile" />
             </q-btn-group>
-      <q-separator class="divider" size="10px" color="accent" />
-      <q-list>
-        <transition-group appear enter-active-class="animated fadeIn slow" leave-active-class="animated fadeOut slow">
-          <coo v-for="coo in coos" :key="coo.id" :coo="coo" class="coo" @removeClicked="removeCoo" @likeClicked="toggleLike"/>
-        </transition-group>
-      </q-list>
+<coos-list :coos="coos"/>
     </q-scroll-area>
   </q-page>
 </template>
@@ -22,6 +17,7 @@ import { collection, doc, addDoc, query, onSnapshot, orderBy, deleteDoc, updateD
 import {db } from 'src/boot/firebase';
 import CooForm from 'src/components/index/CooForm.vue';
 import Coo from 'src/components/index/Coo.vue';
+import CoosList from 'src/components/index/CoosList.vue';
 import LoginForm from 'src/components/index/LoginForm.vue';
 import { useUserDataStore } from 'src/stores/user-data-store';
 
@@ -31,6 +27,7 @@ export default defineComponent({
   components: {
     CooForm,
     Coo,
+    CoosList,
     LoginForm
   },
   setup() {

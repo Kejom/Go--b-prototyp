@@ -16,12 +16,28 @@
           <q-item-section class="text-h6 text-weight-bold">Informacje o Aplikacji</q-item-section>
         </q-item>
 
-        <q-item v-if="userProfileNotFilled" clickable v-ripple to="/register" exact>
+        <q-item v-if="userProfileNotFilled" clickable v-ripple to="/editprofile" exact>
           <q-item-section avatar>
             <q-icon name="person_add" size="md"  />
           </q-item-section>
 
           <q-item-section class="text-h6 text-weight-bold">Uzupełnij Profil</q-item-section>
+        </q-item>
+
+        <q-item v-if="userStore.loggedUser" clickable v-ripple :to="`/${userStore.loggedUser.handle}`" exact>
+          <q-item-section avatar>
+            <q-icon name="person" size="md"  />
+          </q-item-section>
+
+          <q-item-section class="text-h6 text-weight-bold">Profil</q-item-section>
+        </q-item>
+
+        <q-item v-if="userStore.loggedUser" clickable v-ripple to="/editprofile" exact>
+          <q-item-section avatar>
+            <q-icon name="manage_accounts" size="md"  />
+          </q-item-section>
+
+          <q-item-section class="text-h6 text-weight-bold">Edytuj Profil</q-item-section>
         </q-item>
 
         <q-item v-if="userStore.loggedUserRef" clickable v-ripple @click="onLogout" exact>

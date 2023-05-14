@@ -1,6 +1,6 @@
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, addDoc, collection, getDoc, setDoc, doc } from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDoc, setDoc, doc, query, where, getDocs, AggregateQuerySnapshot, orderBy } from "firebase/firestore";
 import {getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage"
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, signOut, GoogleAuthProvider, updateProfile } from "firebase/auth"
 import { generateGUID } from "src/util/guidHelper";
@@ -61,4 +61,51 @@ export const getUserProfileData = async (userId) => {
   const profileRef = doc(db, 'users', userId)
   const snapshot = await getDoc(profileRef);
   return snapshot.data();
+}
+
+export const getUserProfileDataByHandle = async (userHandle) => {
+  if(!userHandle)
+    return;
+
+  const q = query(collection(db, 'users'), where('handle', '==', userHandle));
+  const querySnaphot = await getDocs(q);
+ 
+  if(!querySnaphot.docs.length > 0)  
+  return null;
+
+  const user = querySnaphot.docs[0].data();
+  user.id = querySnaphot.docs[0].id;
+  return user;
+}
+
+export const getCooById = async(id) => {
+  if(!id)
+    return null;
+
+    const docRef = doc(db, "coos", id);
+    const docSnapshot = await getDoc(docRef);
+
+    if(docSnapshot.exists())
+      return docSnapshot.data();
+
+    return null;
+}
+
+export const getCoosByUserId = async (userId) => {
+  if(!userId)
+    return [];
+
+  const q = query(collection(db, 'coos'), where('userId', '==', userId), orderBy('date'))
+
+  const querySnapShot = await getDocs(q);
+
+  const result = [];
+
+  querySnapShot.forEach((doc) => {
+    const coo = doc.data();
+    coo.id = doc.id;
+    result.unshift(coo);
+  })
+
+  return result;
 }

@@ -6,7 +6,10 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue'), name: 'Strona Główna' },
       { path: '/about', component: () => import('pages/AboutPage.vue'), name: 'Informacje o Aplikacji' },
-      {path: '/register', component: () => import('pages/RegisterPage.vue'), name: "Zarejestruj Nowe Konto"}
+      {path: '/register', component: () => import('pages/RegisterPage.vue'), name: "Zarejestruj Nowe Konto"},
+      {path: '/editprofile', component: () => import('pages/UserProfileEditPage.vue'), name: "Edycja Profilu"},
+      {path: '/:userHandle', component: () => import('pages/UserProfilePage.vue'), name: "Profil Użytkownika"},
+      {path: '/:userHandle/:cooId', component: () => import("pages/CooPage.vue"), name: "Gruchnięcie"}
     ]
   },
 

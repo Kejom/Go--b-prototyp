@@ -11,7 +11,6 @@ export default defineComponent({
   setup() {
     const userStore = useUserDataStore();
     const authStateChangeHandler = async (user) => {
-      console.log("auth state changed", user);
       userStore.setCurrentUser(user);
       if(!user)
         return;
