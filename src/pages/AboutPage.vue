@@ -2,12 +2,9 @@
     <q-page class="q-pa-lg">
     <h4 class="q-mt-none q-mb-md text-weight-bold">O Gołebiu</h4>
     <div class="text-body1">
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias corporis consequatur adipisci quae vel,
-        veritatis velit tempora magni eligendi repellat. In cupiditate nam eos, iusto autem ad quis! Laudantium, veniam?
+      <p>Kod źródłowy znajduje się na <a href="https://github.com/Kejom/Golab-prototyp" target="_blank">GitHubie</a>.
       </p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias corporis consequatur adipisci quae vel,
-        veritatis velit tempora magni eligendi repellat. In cupiditate nam eos, iusto autem ad quis! Laudantium, veniam?
-      </p>
+      
     </div>
   </q-page>
 </template>

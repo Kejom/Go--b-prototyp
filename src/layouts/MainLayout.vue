@@ -28,7 +28,7 @@
       <p v-if="userStore.loggedUser">Zalogowany jako: {{ userStore.loggedUser.name }}</p>
     </q-drawer>
 
-    <q-page-container class="fit">
+    <q-page-container class="full-height" style="max-width: 1400px; margin: 0 auto;">
       <router-view v-slot="{ Component }">
         <keep-alive>
           <component :is="Component" />

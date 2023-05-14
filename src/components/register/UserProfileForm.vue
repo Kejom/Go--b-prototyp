@@ -4,7 +4,7 @@
             <q-input filled type="text" v-model="formData.profileName" label="Nazwa Profilu" lazy-rules
                 :rules="[val => val && val.length > 0 || 'Nazwa użytkownika nie może być pusta!']" />
             <q-input filled type="text" v-model="formData.handle" label="Identyfikator Użytkownika" lazy-rules
-                :rules="[val => val && val.length > 0 || 'Identyfikator Użytkownika nie może być pusty']" />
+                :rules="[val => val && val.length > 0 || 'Identyfikator Użytkownika nie może być pusty']" :disable="!!userStore.loggedUser" />
             <q-input v-model="formData.profileDescription" label="Opis Profilu" filled autogrow />
             <div class="row">
                 <div class="col">
@@ -83,7 +83,8 @@ export default {
         return {
             formData,
             updatePreview,
-            onSubmit
+            onSubmit,
+            userStore
         }
     }
 }

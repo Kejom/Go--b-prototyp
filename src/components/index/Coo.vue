@@ -48,7 +48,7 @@ export default {
   },
   setup(props, { emit }) {
     const userStore = useUserDataStore();
-    const loggedUserId = userStore.loggedUserRef.uid;
+    const loggedUserId = userStore.loggedUserRef ? userStore.loggedUserRef.uid: null;
     const user = ref({})
   
     const removeClicked = () => emit("removeClicked", props.coo.id)
