@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { ref, reactive, onActivated } from 'vue'
+import { reactive, onMounted } from 'vue'
 import { saveUserAvatar, setUserProfileData } from 'src/boot/firebase'
 import { useUserDataStore } from 'src/stores/user-data-store'
 import { useRouter } from 'vue-router';
@@ -43,7 +43,7 @@ export default {
             avatarPreview: null
         })
 
-        onActivated(() => {
+        onMounted(() => {
             if (userStore.loggedUser) {
                 formData.profileName = userStore.loggedUser.name;
                 formData.handle = userStore.loggedUser.handle;
@@ -76,7 +76,10 @@ export default {
             };
 
             const user = await setUserProfileData(userId, userProfile);
+            user.id = userId;
             userStore.loggedUser = user;
+            userStore.updateUserInCache(user);
+            router.push("/");
         }
 
 

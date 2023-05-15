@@ -16,6 +16,7 @@ actions: {
         const user = await getUserProfileData(userId);
         this.userCache[userId] = user;
         return user;
-    }
+    },
+    updateUserInCache(user) { this.userCache = {...this.userCache, [user.id] : user}}
 }
 })

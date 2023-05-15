@@ -2,7 +2,7 @@
       <q-card class="my-card" flat >
       <q-item>
         <q-item-section avatar>
-          <q-avatar size="6em" class="gt-sm">
+          <q-avatar size="10em" class="gt-sm">
             <img :src="user.avatarUrl">
           </q-avatar>
         </q-item-section>
@@ -19,7 +19,7 @@
 
       <q-card-section horizontal>
         <q-card-section v-if="user.description">
-          {{user.description}}
+          <p style="white-space: pre-wrap;">{{user.description}}</p>
         </q-card-section>
 
 

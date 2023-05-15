@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { ref, onActivated } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { getCooById } from 'src/boot/firebase';
 import { useUserDataStore } from 'src/stores/user-data-store';
@@ -55,14 +55,14 @@ export default {
         const coo = ref(null);
         const user = ref(null)
 
-        onActivated(async () => {
+        onMounted(async () => {
             const cooData = await getCooById(cooId.value);
             coo.value = cooData
             if(!coo.value)
                 return;
 
             const userData = await userStore.getUser(coo.value.userId);
-            console.log(userData);
+
             if(userData)
                 user.value = userData;
         })

@@ -6,20 +6,21 @@
       <q-btn-group v-else spread class="q-ma-md">
                 <q-btn label="Aby dodawać gruchnięcia musisz uzupełnić swój profil"  color="primary" text-color="accent" to="/editprofile" />
             </q-btn-group>
-<coos-list :coos="coos"/>
+<coos-list :coos="cooStore.coos"/>
     </q-scroll-area>
   </q-page>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
-import { collection, doc, addDoc, query, onSnapshot, orderBy, deleteDoc, updateDoc } from "firebase/firestore";
+import { defineComponent } from 'vue';
+import { collection, doc, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import {db } from 'src/boot/firebase';
 import CooForm from 'src/components/index/CooForm.vue';
 import Coo from 'src/components/index/Coo.vue';
 import CoosList from 'src/components/index/CoosList.vue';
 import LoginForm from 'src/components/index/LoginForm.vue';
 import { useUserDataStore } from 'src/stores/user-data-store';
+import { useCooStore } from 'src/stores/coo-store';
 
 
 export default defineComponent({
@@ -31,7 +32,7 @@ export default defineComponent({
     LoginForm
   },
   setup() {
-    let coos = ref([]);
+    const cooStore = useCooStore();
 
     const userStore = useUserDataStore();
 
@@ -56,29 +57,10 @@ export default defineComponent({
       })
     }
 
-    onMounted(() => {
-      const q = query(collection(db, 'coos'), orderBy('date'));
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-          let changedCoo = change.doc.data();
-          changedCoo.id = change.doc.id;
-          if (change.type === "added") {
-            coos.value.unshift(changedCoo);
-          }
-          if (change.type === "modified") {
-            let index = coos.value.findIndex(c => c.id === changedCoo.id);
-            Object.assign(coos.value[index], changedCoo);
-          }
-          if (change.type === "removed") {
-            coos.value = coos.value.filter(c => c.id !== changedCoo.id);
-          }
-        })
-      })
 
-    })
 
     return {
-      coos,
+      cooStore,
       addCoo,
       removeCoo,
       toggleLike,

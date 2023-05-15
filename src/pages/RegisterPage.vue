@@ -7,7 +7,7 @@
 import RegisterForm from 'src/components/register/RegisterForm.vue';
 import UserProfileForm from 'src/components/register/UserProfileForm.vue';
 import { useUserDataStore } from 'src/stores/user-data-store';
-import { onActivated } from 'vue';
+import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default {
@@ -20,7 +20,7 @@ export default {
         const userStore = useUserDataStore();
         const router = useRouter();
 
-        onActivated(() => {
+        onMounted(() => {
             if(userStore.loggedUserRef)
                 router.push("/");
         })

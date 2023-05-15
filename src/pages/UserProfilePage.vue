@@ -1,12 +1,13 @@
 <template>
     <user-profile v-if="user" :user="user"/>
-    <coos-list :coos="coos"/>
+    <coos-list v-if="user" :coos="cooStore.getCoosByUserId(user.id)"/>
 </template>
 
 <script>
-import { ref, onActivated, watch } from 'vue';
+import { ref, onMounted} from 'vue';
 import { useRoute, useRouter } from 'vue-router'
-import { getCoosByUserId, getUserProfileDataByHandle } from 'src/boot/firebase';
+import { getUserProfileDataByHandle } from 'src/boot/firebase';
+import { useCooStore } from 'src/stores/coo-store';
 import UserProfile from 'src/components/shared/UserProfile.vue';
 import CoosList from 'src/components/index/CoosList.vue';
 export default {
@@ -18,27 +19,21 @@ export default {
     setup() {
         const route = useRoute();
         const router = useRouter();
+        const cooStore = useCooStore();
         const user = ref(null);
-        const coos = ref([]);
 
-
-
-        onActivated(async () => {
+        onMounted(async () => {
             const userData = await getUserProfileDataByHandle(route.params.userHandle);
 
             if (!userData)
                 router.go(-1);
-
-
             user.value = userData;
 
-            const coosData = await getCoosByUserId(userData.id);
-            coos.value = coosData;
         })
 
         return {
             user,
-            coos
+            cooStore
         }
 
     }
