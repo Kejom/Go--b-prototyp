@@ -21,11 +21,11 @@
 
 
       <div class="qweet-icons row justify-around q-mt-md">
-        <q-btn flat round color="grey" icon="far fa-comment" size="sm" :to="`/${user.handle}/${coo.id}`"/>
-        <q-btn flat round color="grey" icon="fas fa-retweet" size="sm" />
-        <q-btn flat round :color="coo.liked ? 'pink' : 'grey'" :icon="coo.liked ? 'fas fa-heart' : 'far fa-heart'"
-          size="sm" @click="likeClicked"/>
-        <q-btn flat round color="grey" icon="fas fa-trash" size="sm" @click="removeClicked" :disable="loggedUserId !== coo.userId" />
+        <q-btn flat round color="grey" icon="far fa-comment" size="sm" :to="`/${user.handle}/${coo.id}`" :label="coo.comments" text-color="primary" />
+        <q-btn flat round color="grey" icon="fas fa-retweet" size="sm" text-color="primary"/>
+        <q-btn flat round :color="isLiked ? 'pink' : 'grey'" :icon="isLiked? 'fas fa-heart' : 'far fa-heart'"
+          size="sm" @click="likeClicked" :label="coo.likes" text-color="primary" :disable="!loggedUserId"/>
+        <q-btn flat round color="grey" :icon="loggedUserId === coo.userId ? 'fas fa-trash': ''" size="sm" @click="removeClicked" :disable="loggedUserId !== coo.userId" text-color="primary"/>
       </div>
     </q-item-section>
 
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { formatDistance } from 'date-fns'
 import { pl } from 'date-fns/locale'
 import { useUserDataStore } from 'src/stores/user-data-store'
@@ -50,9 +50,8 @@ export default {
     const userStore = useUserDataStore();
     const loggedUserId = userStore.loggedUserRef ? userStore.loggedUserRef.uid: null;
     const user = ref({})
-  
+    const isLiked = computed(() => userStore.loggedUserLikes.has(props.coo.id))
     const removeClicked = () => emit("removeClicked", props.coo.id)
-
 
     const likeClicked = () => emit("likeClicked", props.coo);
 
@@ -65,6 +64,7 @@ export default {
     return {
       user,
       loggedUserId,
+      isLiked,
       removeClicked,
       likeClicked,
       relativeDate

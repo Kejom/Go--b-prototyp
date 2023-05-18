@@ -61,6 +61,7 @@
 
 <script>
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useUserDataStore } from 'src/stores/user-data-store';
 import { logOut } from 'src/boot/firebase';
 export default {
@@ -68,10 +69,12 @@ export default {
     setup(){
       const userStore = useUserDataStore();
       const userProfileNotFilled = computed(() =>  userStore.loggedUserRef && !userStore.loggedUser)
+      const router = useRouter();
 
       const onLogout = async() => {
         await logOut();
         userStore.loggedUser = null;
+        router.push("/");
       }
 
       return {

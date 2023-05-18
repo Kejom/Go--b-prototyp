@@ -1,18 +1,18 @@
 <template>
   <q-page class="flex flex-center">
     <q-scroll-area class="absolute full-width full-height">
-      <login-form v-if="!userStore.loggedUserRef"/>
+      <login-form class="lt-md" v-if="!userStore.loggedUserRef"/>
       <coo-form v-else-if="userStore.loggedUser" @add-clicked="addCoo" />
       <q-btn-group v-else spread class="q-ma-md">
                 <q-btn label="Aby dodawać gruchnięcia musisz uzupełnić swój profil"  color="primary" text-color="accent" to="/editprofile" />
             </q-btn-group>
-<coos-list :coos="cooStore.coos"/>
+<coos-list :coos="cooStore.getCoos"/>
     </q-scroll-area>
   </q-page>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { collection, doc, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import {db } from 'src/boot/firebase';
 import CooForm from 'src/components/index/CooForm.vue';
@@ -33,37 +33,25 @@ export default defineComponent({
   },
   setup() {
     const cooStore = useCooStore();
-
     const userStore = useUserDataStore();
 
     const addCoo = async ({ cooText }) => {
       let newCoo = {
         content: cooText,
         date: Date.now(),
-        liked: false,
-        userId: userStore.loggedUserRef.uid
+        userId: userStore.loggedUserRef.uid,
+        comments: 0,
+        likes: 0
       }
       const newCooRef = await addDoc(collection(db, 'coos'), newCoo);
     }
 
-    const removeCoo = async (id) => {
-      await deleteDoc(doc(db, 'coos', id));
-    }
-
-    const toggleLike = async(coo) => {
-      const cooRef = doc(db, 'coos', coo.id);
-      await updateDoc(cooRef, {
-        liked: !coo.liked
-      })
-    }
 
 
 
     return {
       cooStore,
       addCoo,
-      removeCoo,
-      toggleLike,
       userStore
     }
   }

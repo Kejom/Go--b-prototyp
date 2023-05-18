@@ -2,7 +2,8 @@ import { defineStore } from 'pinia';
 
 export const useCooStore = defineStore("Coo", {
     state: () => ({
-        coos: []
+        coos: [],
+        filter: ''
     }),
     actions: {
         addCoo(coo) {this.coos.unshift(coo)},
@@ -15,8 +16,21 @@ export const useCooStore = defineStore("Coo", {
         }
     },
     getters: {
+        getCoos: (state) => {
+            if(state.filter.length < 3)
+                return state.coos;
+            return state.coos.filter(c => c.content.toLowerCase().includes(state.filter.toLowerCase()));
+        },
         getCoosByUserId: (state) => {
-            return (userId) => state.coos.filter(c => c.userId === userId);
+            return (userId) => {
+                let result = state.coos.filter(c => c.userId === userId);
+                if(state.filter.length < 3)
+                    return result;
+                return result.filter(c => c.content.toLowerCase().includes(state.filter.toLowerCase()));
+            }
+        },
+        getCooById: (state) => {
+            return (id) => state.coos.find(c => c.id === id);
         }
     }
 })

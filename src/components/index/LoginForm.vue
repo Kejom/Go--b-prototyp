@@ -10,12 +10,10 @@
 
 
             <div class="column">
-                <q-btn-group spread>
-                    <q-btn label="Zaloguj" type="submit" color="primary" text-color="accent" />
-                    <q-btn label="Zaloguj z Google" type="button" color="red" @click="onGoogleLogin"/>
-                </q-btn-group>
+                <q-btn label="Zaloguj" type="submit" color="primary" text-color="accent" class="q-ma-sm" />
+                    <q-btn label="Zaloguj z Google" type="button" color="red" @click="onGoogleLogin" class="q-ma-sm"/>
 
-                    <q-btn label="Zarejestruj Nowe Konto" color="accent" text-color="primary" style="min-height: 48px; padding: 4 16;" to="/register" />
+                    <q-btn label="Zarejestruj Nowe Konto" color="accent" text-color="primary"  to="/register" class="q-ma-sm" />
 
 
 

@@ -6,7 +6,7 @@
 import { defineComponent, onMounted } from 'vue'
 import { useUserDataStore } from 'src/stores/user-data-store';
 import { onAuthStateChangedListener, getUserProfileData } from 'src/boot/firebase';
-import {collection, query, onSnapshot, orderBy} from 'firebase/firestore'
+import {collection, query, onSnapshot, orderBy, where, getDocs} from 'firebase/firestore'
 import {db } from 'src/boot/firebase';
 import {useCooStore} from 'src/stores/coo-store'
 
@@ -18,10 +18,20 @@ export default defineComponent({
 
     const authStateChangeHandler = async (user) => {
       userStore.setCurrentUser(user);
+      userStore.setCurrentUserLikes(new Set());
       if(!user)
         return;
       const userProfile = await getUserProfileData(user.uid);
       userStore.loggedUser = userProfile;
+
+      const q = query(collection(db, 'likes'), where('userId', '==', user.uid));
+      const snapshot = await getDocs(q)
+      const likes = new Set();
+      snapshot.forEach(doc => {
+        let like = doc.data();
+        likes.add(like.cooId)
+      });
+      userStore.setCurrentUserLikes(likes);
     }
 
     const watchCoos = () => {

@@ -1,10 +1,14 @@
 <template>
-    <user-profile v-if="user" :user="user"/>
-    <coos-list v-if="user" :coos="cooStore.getCoosByUserId(user.id)"/>
+    <q-page class="flex flex-center">
+        <q-scroll-area class="absolute full-width full-height">
+            <user-profile v-if="user" :user="user" />
+            <coos-list v-if="user" :coos="cooStore.getCoosByUserId(user.id)" />
+        </q-scroll-area>
+    </q-page>
 </template>
 
 <script>
-import { ref, onMounted} from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import { getUserProfileDataByHandle } from 'src/boot/firebase';
 import { useCooStore } from 'src/stores/coo-store';

@@ -5,10 +5,12 @@ export const useUserDataStore = defineStore('userData', {
 state : () => ({
     loggedUserRef: null,
     loggedUser: null,
-    userCache: {}
+    userCache: {},
+    loggedUserLikes: new Set()
 }),
 actions: {
     setCurrentUser(user) {this.loggedUserRef = user},
+    setCurrentUserLikes(likes) {this.loggedUserLikes = new Set(likes)},
     async getUser(userId){
         if(Object.hasOwn(this.userCache, userId))
             return this.userCache[userId];
