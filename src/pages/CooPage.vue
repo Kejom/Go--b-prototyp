@@ -34,8 +34,8 @@
 
                     <q-card-actions vertical class="justify-around q-px-md">
 
-                        <q-btn flat round :color="coo.liked ? 'pink' : 'grey'"
-                            :icon="coo.liked ? 'fas fa-heart' : 'far fa-heart'" size="md" :label="coo.likes"
+                        <q-btn flat round :color="isLiked ? 'pink' : 'grey'"
+                            :icon="isLiked ? 'fas fa-heart' : 'far fa-heart'" size="md" :label="coo.likes"
                             text-color="primary" />
                         <q-btn v-if="userStore.loggedUserRef.uid === coo.userId" flat round color="grey" icon="fas fa-trash" size="md" text-color="primary" />
                     </q-card-actions>
@@ -81,6 +81,7 @@ export default {
         const user = ref({});
         const comments = ref([]);
         let unsubscribeComments = null;
+        const isLiked = computed(() => userStore.loggedUserLikes.has(route.params.cooId))
 
         watch(coo, () => {
             initUser()
@@ -158,6 +159,7 @@ export default {
             user,
             comments,
             userStore,
+            isLiked,
             addComment,
             relativeDate,
             updateCooOnCommentDelete
